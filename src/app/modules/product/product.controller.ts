@@ -11,6 +11,7 @@ const getAllProducts = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
+    message: "Products fetched successfully",
     data: products,
   });
 });
@@ -24,6 +25,7 @@ const getProductById = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
+    message: "Product fetched successfully",
     data: product,
   });
 });
@@ -34,6 +36,7 @@ const createProduct = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.CREATED,
+    message: "Product created successfully",
     data: product,
   });
 });
@@ -44,6 +47,7 @@ const updateProduct = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
+    message: "Product updated successfully",
     data: product,
   });
 });
@@ -54,6 +58,7 @@ const deleteProduct = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
+    message: "Product deleted successfully",
     data: product,
   });
 });
