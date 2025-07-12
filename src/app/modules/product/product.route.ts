@@ -3,6 +3,7 @@ import { ProductController } from "./product.controller";
 import validateRequest from "../../middlewares/validateRequest";
 import authVerify from "../../middlewares/authVerify";
 import { createProductSchema, updateProductSchema } from "./product.validation";
+import { USER_ROLE } from "../user/user.constant";
 
 const router = Router();
 
@@ -15,7 +16,7 @@ router.get("/:id", ProductController.getProductById);
 // Create a new product
 router.post(
   "/",
-  authVerify("admin"),
+  authVerify(USER_ROLE.admin),
   validateRequest(createProductSchema),
   ProductController.createProduct
 );
@@ -23,12 +24,16 @@ router.post(
 // Update a product
 router.put(
   "/:id",
-  authVerify("admin"),
+  authVerify(USER_ROLE.admin),
   validateRequest(updateProductSchema),
   ProductController.updateProduct
 );
 
 // Delete a product
-router.delete("/:id", authVerify("admin"), ProductController.deleteProduct);
+router.delete(
+  "/:id",
+  authVerify(USER_ROLE.admin),
+  ProductController.deleteProduct
+);
 
 export const ProductRoutes = router;
