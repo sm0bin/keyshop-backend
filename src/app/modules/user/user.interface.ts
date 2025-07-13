@@ -1,12 +1,15 @@
-export interface IUser {
-  uId: string;
+export interface ICreateUser extends Document {
   email: string;
-  password: string;
   name: string;
+  password: string;
+}
+
+export interface IUser extends ICreateUser {
+  uId: string;
   photo: string;
+  role: "superAdmin" | "admin" | "user";
   needsPasswordChange: boolean;
   passwordChangedAt?: Date;
-  role: "superAdmin" | "admin" | "user";
   status: "active" | "blocked";
   isDeleted: boolean;
 }
