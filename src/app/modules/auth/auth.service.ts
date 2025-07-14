@@ -32,12 +32,12 @@ const loginUser = async (payload: IUserLogin) => {
   const accessToken = createToken(
     jwtPayload,
     config.jwtSecret as string,
-    "15m"
+    15 * 60 * 1000
   );
   const refreshToken = createToken(
     jwtPayload,
     config.jwtRefreshSecret as string,
-    "10d"
+    30 * 24 * 60 * 60 * 1000
   );
   // const needsPasswordChange = user.isPasswordChanged();
 
@@ -68,7 +68,7 @@ const refreshToken = async (token: string) => {
   const accessToken = createToken(
     jwtPayload,
     config.jwtSecret as string,
-    "15m"
+    15 * 60 * 1000
   );
 
   return {
