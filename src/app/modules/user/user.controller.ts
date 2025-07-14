@@ -2,8 +2,8 @@ import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { Request, Response } from "express";
-import { UserServices } from "./user.service";
 import AppError from "../../errors/AppError";
+import { UserServices } from "./user.service";
 
 // Get all users
 const getAllUsers = catchAsync(async (req: Request, res: Response) => {

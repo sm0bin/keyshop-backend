@@ -16,10 +16,11 @@ export const updateUserSchema = z.object({
       .string()
       .min(2, "Name must be at least 2 characters long")
       .optional(),
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters long")
-      .optional(),
+    // password: z
+    //   .string()
+    //   .min(8, "Password must be at least 8 characters long")
+    //   .optional(),
     role: z.enum(["superAdmin", "admin", "user"]).default("user").optional(),
+    status: z.enum(["active", "blocked"]).default("active").optional(),
   }),
 });

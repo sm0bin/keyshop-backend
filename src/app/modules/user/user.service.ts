@@ -1,9 +1,9 @@
 import config from "../../config";
 import AppError from "../../errors/AppError";
-import { IUser } from "./user.interface";
-import { User } from "./user.model";
 import httpStatus from "http-status";
 import bcrypt from "bcrypt";
+import { IUser } from "./user.interface";
+import { User } from "./user.model";
 
 // Get all users
 const getAllUsers = async () => {

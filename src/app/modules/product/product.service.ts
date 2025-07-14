@@ -1,5 +1,5 @@
-import Product from "./product.model";
 import { IProduct } from "./product.interface";
+import { Product } from "./product.model";
 
 // Get all products
 const getAllProducts = async () => {

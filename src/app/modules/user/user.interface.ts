@@ -5,7 +5,7 @@ export interface ICreateUser extends Document {
 }
 
 export interface IUser extends ICreateUser {
-  uId: string;
+  id: string;
   photo: string;
   role: "superAdmin" | "admin" | "user";
   needsPasswordChange: boolean;
