@@ -2,7 +2,7 @@ import { Router } from "express";
 import { ProductRoutes } from "../modules/product/product.route";
 import { UserRoutes } from "../modules/user/user.route";
 import { CartRoutes } from "../modules/cart/cart.route";
-import { OrderRoutes } from "../modules/order/order.route";
+// import { OrderRoutes } from "../modules/order/order.route";
 
 const router = Router();
 
@@ -12,17 +12,17 @@ const routes = [
     route: UserRoutes,
   },
   {
-    path: "products",
+    path: "/products",
     route: ProductRoutes,
   },
   {
-    path: "cart",
+    path: "/cart",
     route: CartRoutes,
   },
-  {
-    path: "orders",
-    route: OrderRoutes,
-  },
+  // {
+  //   path: "orders",
+  //   route: OrderRoutes,
+  // },
 ];
 
 routes.forEach((route) => {

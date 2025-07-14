@@ -27,9 +27,9 @@ const createUser = async (payload: IUser) => {
   }
 
   // Validate role
-  if (!role || !["superAdmin", "admin", "user"].includes(role)) {
-    throw new AppError(httpStatus.BAD_REQUEST, "Invalid role specified");
-  }
+  // if (!role || !["superAdmin", "admin", "user"].includes(role)) {
+  //   throw new AppError(httpStatus.BAD_REQUEST, "Invalid role specified");
+  // }
 
   const hashedPassword = await bcrypt.hash(
     password,
