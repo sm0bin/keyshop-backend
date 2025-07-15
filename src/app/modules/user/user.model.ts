@@ -23,6 +23,7 @@ const userSchema = new Schema<IUser>(
       enum: ["active", "blocked"],
       default: "active",
     },
+    resetToken: { type: String, required: false, default: null },
     isDeleted: { type: Boolean, required: true, default: false },
   }
   // {

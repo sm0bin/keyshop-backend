@@ -11,5 +11,6 @@ export interface IUser extends ICreateUser {
   needsPasswordChange: boolean;
   passwordChangedAt?: Date;
   status: "active" | "blocked";
+  resetToken?: string | null;
   isDeleted: boolean;
 }

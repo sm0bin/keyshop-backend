@@ -11,4 +11,6 @@ export default {
   jwtSecret: process.env.JWT_SECRET,
   jwtRefreshSecret: process.env.JWT_REFRESH_SECRET,
   bcryptSaltRounds: process.env.BCRYPT_SALT_ROUNDS,
+  mailUser: process.env.MAIL_USER,
+  mailPass: process.env.MAIL_PASS,
 };

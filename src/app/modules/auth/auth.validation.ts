@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { email, z } from "zod";
 
 export const loginSchema = z.object({
   body: z.object({
@@ -23,7 +23,10 @@ export const refreshTokenSchema = z.object({
 
 export const forgotPasswordSchema = z.object({
   body: z.object({
-    id: z.string().min(1, "User id is required!"),
+    email: z
+      .string()
+      .email("Invalid email format")
+      .min(1, "Email is required!"),
   }),
 });
 

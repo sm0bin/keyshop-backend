@@ -4,11 +4,12 @@ import sendResponse from "../../utils/sendResponse";
 import { Request, Response } from "express";
 import AppError from "../../errors/AppError";
 import config from "../../config";
-import { AuthServices } from "./auth.service";
+import { AuthService } from "./auth.service";
+import { createTransport } from "nodemailer";
 
 // Login
 const loginUser = catchAsync(async (req, res) => {
-  const result = await AuthServices.loginUser(req.body);
+  const result = await AuthService.loginUser(req.body);
   const { refreshToken, accessToken, needsPasswordChange } = result;
 
   res.cookie("refreshToken", refreshToken, {
@@ -31,13 +32,13 @@ const loginUser = catchAsync(async (req, res) => {
 
 // Refresh token
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
-  const result = await AuthServices.refreshToken(req.cookies.refreshToken);
-  res.cookie("refreshToken", result.refreshToken, {
-    secure: config.nodeEnv === "production",
-    httpOnly: true,
-    sameSite: "none",
-    maxAge: 1000 * 60 * 60 * 24 * 30,
-  });
+  const result = await AuthService.refreshToken(req.cookies.refreshToken);
+  // res.cookie("refreshToken", result.refreshToken, {
+  //   secure: config.nodeEnv === "production",
+  //   httpOnly: true,
+  //   sameSite: "none",
+  //   maxAge: 1000 * 60 * 60 * 24 * 30,
+  // });
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -48,18 +49,41 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
 
 // Forgot password
 const forgotPassword = catchAsync(async (req: Request, res: Response) => {
-  const result = await AuthServices.forgotPassword(req.body.email);
+  const result = await AuthService.forgotPassword(req.body.email);
+  const transporter = createTransport({
+    service: "gmail",
+    auth: {
+      user: config.mailUser,
+      pass: config.mailPass,
+    },
+  });
+
+  const mailOptions = {
+    from: "`Shehjad Mobin from Mechakeys",
+    to: req.body.email,
+    subject: "Password Reset Request",
+    text: `You requested a password reset. Click the link below to reset your password:\n\nhttp://localhost:5000/api/v1/auth/reset-password?token=${result.resetToken}`,
+    html: `<p>You requested a password reset. Click the link below to reset your password:</p><p><a href='http://localhost:5000/api/v1/auth/reset-password?token=${result.resetToken}'>Reset Password</a></p>`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return console.log("Error:", error);
+    }
+    console.log("Email sent:", info.response);
+  });
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "Password reset email sent successfully",
-    data: result,
+    // data: result,
   });
 });
 
 // Reset password
 const resetPassword = catchAsync(async (req: Request, res: Response) => {
-  const result = await AuthServices.resetPassword(req.query.token, req.body);
+  const result = await AuthService.resetPassword(req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -70,7 +94,7 @@ const resetPassword = catchAsync(async (req: Request, res: Response) => {
 
 // Change password
 const changePassword = catchAsync(async (req: Request, res: Response) => {
-  const result = await AuthServices.changePassword(req.user, req.body);
+  const result = await AuthService.changePassword(req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
