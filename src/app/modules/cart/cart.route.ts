@@ -59,7 +59,7 @@ router.put(
 
 // Remove item from cart
 router.delete(
-  "/remove-item",
+  "/remove-item/:id",
   authVerify(USER_ROLE.user),
   CartController.removeItemFromCart
 );

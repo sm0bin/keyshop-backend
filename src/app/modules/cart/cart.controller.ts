@@ -104,8 +104,7 @@ const addItemToCart = catchAsync(async (req: Request, res: Response) => {
 // Update item quantity in cart
 const updateCartItem = catchAsync(async (req: Request, res: Response) => {
   const userId = req.user._id;
-  const item = req.body; // should include productId and new quantity
-  const updatedCart = await CartServices.updateItem(userId, item);
+  const updatedCart = await CartServices.updateItem(userId, req.body);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -117,7 +116,10 @@ const updateCartItem = catchAsync(async (req: Request, res: Response) => {
 // Remove item from cart
 const removeItemFromCart = catchAsync(async (req: Request, res: Response) => {
   const userId = req.user._id;
-  const { productId } = req.body;
+  const productId = req.params.id; // product ID to remove
+  if (!productId) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Product ID is required");
+  }
   const updatedCart = await CartServices.removeItem(userId, productId);
   sendResponse(res, {
     success: true,
