@@ -7,6 +7,7 @@ export interface ICartItem {
   quantity: number;
   price: number;
   addedAt?: Date;
+  product?: IProduct | null; // Optional, populated when fetching cart
 }
 
 export interface ICartDiscount {
@@ -32,7 +33,7 @@ export enum CartStatus {
 
 export interface ICart {
   _id?: Types.ObjectId;
-  userId?: Types.ObjectId;
+  userId: string; // Changed to string for user ID
   items: ICartItem[];
   totalAmount: number;
   totalItems: number;

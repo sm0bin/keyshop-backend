@@ -45,8 +45,8 @@ const getCartByUserId = catchAsync(async (req: Request, res: Response) => {
 
 // Get current user's cart
 const getMyCart = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user._id; // assuming auth middleware sets req.user
-  const cart = await CartServices.getCartByUserId(userId);
+  const id = req.user.id; // assuming auth middleware sets req.user
+  const cart = await CartServices.getMyCart(id);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -90,9 +90,9 @@ const deleteCart = catchAsync(async (req: Request, res: Response) => {
 
 // Add item to cart
 const addItemToCart = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user._id;
+  const id = req.user.id;
   const item = req.body; // should include productId and quantity
-  const updatedCart = await CartServices.addItem(userId, item);
+  const updatedCart = await CartServices.addItem(id, item);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -103,8 +103,8 @@ const addItemToCart = catchAsync(async (req: Request, res: Response) => {
 
 // Update item quantity in cart
 const updateCartItem = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user._id;
-  const updatedCart = await CartServices.updateItem(userId, req.body);
+  const id = req.user.id;
+  const updatedCart = await CartServices.updateItem(id, req.body);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -115,12 +115,12 @@ const updateCartItem = catchAsync(async (req: Request, res: Response) => {
 
 // Remove item from cart
 const removeItemFromCart = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user._id;
+  const id = req.user.id;
   const productId = req.params.id; // product ID to remove
   if (!productId) {
     throw new AppError(httpStatus.BAD_REQUEST, "Product ID is required");
   }
-  const updatedCart = await CartServices.removeItem(userId, productId);
+  const updatedCart = await CartServices.removeItem(id, productId);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -131,8 +131,8 @@ const removeItemFromCart = catchAsync(async (req: Request, res: Response) => {
 
 // Clear entire cart
 const clearCart = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user._id;
-  const clearedCart = await CartServices.clearCart(userId);
+  const id = req.user.id;
+  const clearedCart = await CartServices.clearCart(id);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,

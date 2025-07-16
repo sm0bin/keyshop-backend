@@ -7,35 +7,6 @@ import { createCartSchema, updateCartSchema } from "./cart.validation";
 
 const router = Router();
 
-// Create a new cart
-router.post(
-  "/",
-  authVerify(USER_ROLE.user),
-  validateRequest(createCartSchema),
-  CartController.createCart
-);
-
-// Get all carts
-router.get("/", authVerify(USER_ROLE.admin), CartController.getAllCarts);
-
-// Get cart by id
-router.get(
-  "/:id",
-  authVerify(USER_ROLE.user, USER_ROLE.admin),
-  CartController.getCartById
-);
-
-// Update a cart
-router.put(
-  "/:id",
-  authVerify(USER_ROLE.user, USER_ROLE.admin),
-  validateRequest(updateCartSchema),
-  CartController.updateCart
-);
-
-// Delete a cart
-router.delete("/:id", authVerify(USER_ROLE.user), CartController.deleteCart);
-
 // Get cart by user id
 router.get(
   "/user/:userId",
@@ -69,5 +40,34 @@ router.get("/my-cart", authVerify(USER_ROLE.user), CartController.getMyCart);
 
 // Clear cart
 router.delete("/clear", authVerify(USER_ROLE.user), CartController.clearCart);
+
+// Create a new cart
+router.post(
+  "/",
+  authVerify(USER_ROLE.user),
+  validateRequest(createCartSchema),
+  CartController.createCart
+);
+
+// Get all carts
+router.get("/", authVerify(USER_ROLE.admin), CartController.getAllCarts);
+
+// Get cart by id
+router.get(
+  "/:id",
+  authVerify(USER_ROLE.user, USER_ROLE.admin),
+  CartController.getCartById
+);
+
+// Update a cart
+router.put(
+  "/:id",
+  authVerify(USER_ROLE.user, USER_ROLE.admin),
+  validateRequest(updateCartSchema),
+  CartController.updateCart
+);
+
+// Delete a cart
+router.delete("/:id", authVerify(USER_ROLE.user), CartController.deleteCart);
 
 export const CartRoutes = router;

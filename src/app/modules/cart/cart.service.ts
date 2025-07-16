@@ -1,3 +1,4 @@
+import { Product } from "../product/product.model";
 import { ICart, ICartItem } from "./cart.interface";
 import { Cart } from "./cart.model";
 import mongoose from "mongoose";
@@ -8,8 +9,8 @@ const getAllCarts = async () => {
 };
 
 // Get cart by cart ID (if needed)
-const getCartById = async (id: string) => {
-  return await Cart.findById(id);
+const getCartById = async (userId: string) => {
+  return await Cart.findById(userId);
 };
 
 // Get cart by user ID
@@ -23,13 +24,13 @@ const createCart = async (cart: ICart) => {
 };
 
 // Update entire cart
-const updateCart = async (id: string, cart: ICart) => {
-  return await Cart.findByIdAndUpdate(id, cart, { new: true });
+const updateCart = async (userId: string, cart: ICart) => {
+  return await Cart.findByIdAndUpdate(userId, cart, { new: true });
 };
 
 // Delete a cart by ID
-const deleteCart = async (id: string) => {
-  return await Cart.findByIdAndDelete(id);
+const deleteCart = async (userId: string) => {
+  return await Cart.findByIdAndDelete(userId);
 };
 
 // Add an item to the user's cart
@@ -84,6 +85,34 @@ const removeItem = async (userId: string, productId: string) => {
   return await cart.save();
 };
 
+const getMyCart = async (userId: string) => {
+  const cart = await Cart.findOne({ userId });
+  if (!cart) {
+    return await Cart.create({ userId, items: [] });
+  }
+
+  cart.totalItems = cart.items.reduce((sum, item) => sum + item.quantity, 0);
+  cart.totalAmount = cart.items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+  const newCart = await cart.save();
+
+  // Fetch product details for each item
+  const itemsWithProductDetails = await Promise.all(
+    newCart.items.map(async (item) => {
+      const product = await Product.findById(item.productId);
+      return {
+        ...item.toObject(), // Convert mongoose document to plain object
+        product: product || null, // Include full product details
+      };
+    })
+  );
+
+  newCart.items = itemsWithProductDetails;
+  return newCart;
+};
+
 // Clear all items from the user's cart
 const clearCart = async (userId: string) => {
   const cart = await Cart.findOne({ userId });
@@ -103,5 +132,6 @@ export const CartServices = {
   addItem,
   updateItem,
   removeItem,
+  getMyCart,
   clearCart,
 };

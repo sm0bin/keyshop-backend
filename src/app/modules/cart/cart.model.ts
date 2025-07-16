@@ -27,7 +27,7 @@ import { CartStatus, ICart } from "./cart.interface";
 const cartSchema = new Schema<ICart>(
   {
     userId: {
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: "User",
       required: true,
     },
