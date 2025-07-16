@@ -163,10 +163,26 @@ const changePassword = async (payload: IChangePassword) => {
   return userWithoutPassword;
 };
 
+// Get user profile
+const getUserProfile = async (id: string) => {
+  const user = await User.findOne({ id, isDeleted: false });
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, "User not found");
+  }
+
+  if (user.status === "blocked") {
+    throw new AppError(httpStatus.UNAUTHORIZED, "User is blocked");
+  }
+
+  const { password: _, ...userWithoutPassword } = user.toObject();
+  return userWithoutPassword;
+};
+
 export const AuthService = {
   loginUser,
   refreshToken,
   forgotPassword,
   resetPassword,
   changePassword,
+  getUserProfile,
 };

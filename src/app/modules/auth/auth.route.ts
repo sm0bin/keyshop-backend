@@ -43,4 +43,11 @@ router.post(
   AuthController.changePassword
 );
 
+// Get user profile
+router.get(
+  "/profile",
+  authVerify(USER_ROLE.admin, USER_ROLE.user, USER_ROLE.superAdmin),
+  AuthController.getUserProfile
+);
+
 export const AuthRoutes = router;

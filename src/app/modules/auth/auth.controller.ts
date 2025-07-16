@@ -103,10 +103,23 @@ const changePassword = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Get user profile
+const getUserProfile = catchAsync(async (req: Request, res: Response) => {
+  const user = await AuthService.getUserProfile(req.user.id);
+  console.log("User profile:", req.user.email, user);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User profile retrieved successfully",
+    data: user,
+  });
+});
+
 export const AuthController = {
   loginUser,
   refreshToken,
   forgotPassword,
   resetPassword,
   changePassword,
+  getUserProfile,
 };

@@ -34,9 +34,9 @@ const authVerify = (...requiredRoles: TUserRole[]) => {
       config.jwtSecret as string
     )) as JwtPayload;
 
-    const { id } = decoded;
+    const { id, role } = decoded;
 
-    const user = await User.findById(id);
+    const user = await User.findOne({ id });
 
     if (!user) {
       throw new AppError(httpStatus.NOT_FOUND, "User not found");
