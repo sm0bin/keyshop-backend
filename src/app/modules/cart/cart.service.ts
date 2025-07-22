@@ -104,13 +104,16 @@ const getMyCart = async (userId: string) => {
       const product = await Product.findById(item.productId);
       return {
         ...item.toObject(), // Convert mongoose document to plain object
-        product: product || null, // Include full product details
+        product: product || null,
       };
     })
   );
 
-  newCart.items = itemsWithProductDetails;
-  return newCart;
+  // Return a plain object with the enhanced items
+  return {
+    ...newCart.toObject(),
+    items: itemsWithProductDetails,
+  };
 };
 
 // Clear all items from the user's cart

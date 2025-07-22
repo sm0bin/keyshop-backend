@@ -5,10 +5,9 @@ import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import AppError from "../errors/AppError";
 import config from "../config";
-import { IUser, TUserRole } from "../modules/user/user.interface";
 import { User } from "../modules/user/user.model";
 
-const authVerify = (...requiredRoles: TUserRole[]) => {
+const authVerify = (...requiredRoles: string[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization;
 

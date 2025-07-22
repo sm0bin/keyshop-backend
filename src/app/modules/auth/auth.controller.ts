@@ -106,7 +106,7 @@ const changePassword = catchAsync(async (req: Request, res: Response) => {
 // Get user profile
 const getUserProfile = catchAsync(async (req: Request, res: Response) => {
   const user = await AuthService.getUserProfile(req.user.id);
-  console.log("User profile:", req.user.email, user);
+  console.log("User profile:", user);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

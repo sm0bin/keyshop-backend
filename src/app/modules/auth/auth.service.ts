@@ -32,7 +32,7 @@ const loginUser = async (payload: IUserLogin) => {
   const accessToken = createToken(
     jwtPayload,
     config.jwtSecret as string,
-    15 * 60 * 1000
+    2 * 24 * 60 * 60 * 1000
   );
   const refreshToken = createToken(
     jwtPayload,
@@ -68,7 +68,7 @@ const refreshToken = async (token: string) => {
   const accessToken = createToken(
     jwtPayload,
     config.jwtSecret as string,
-    15 * 60 * 1000
+    2 * 24 * 60 * 60 * 1000
   );
 
   return {
@@ -91,7 +91,7 @@ const forgotPassword = async (email: string) => {
   const resetToken = createToken(
     { id: user.id, role: user.role },
     config.jwtSecret as string,
-    15 * 60 * 1000
+    7 * 24 * 60 * 60 * 1000
   );
 
   user.resetToken = resetToken;

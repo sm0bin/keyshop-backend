@@ -45,6 +45,9 @@ const getCartByUserId = catchAsync(async (req: Request, res: Response) => {
 
 // Get current user's cart
 const getMyCart = catchAsync(async (req: Request, res: Response) => {
+  // const id = req.user.id; // assuming auth middleware sets req.user
+
+  console.log("User ID from request:", req.user.id);
   const id = req.user.id; // assuming auth middleware sets req.user
   const cart = await CartServices.getMyCart(id);
   sendResponse(res, {
@@ -68,7 +71,7 @@ const createCart = catchAsync(async (req: Request, res: Response) => {
 
 // Update entire cart
 const updateCart = catchAsync(async (req: Request, res: Response) => {
-  const cart = await CartServices.updateCart(req.params.id, req.body);
+  const cart = await CartServices.updateCart(req.user.id, req.body);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
