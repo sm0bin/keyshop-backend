@@ -5,9 +5,28 @@ export const createProductSchema = z.object({
     image: z.string(),
     title: z.string(),
     brand: z.string(),
-    quantity: z.number(),
-    price: z.number(),
-    rating: z.number(),
+    quantity: z
+      .string()
+      .min(1, "Quantity is required")
+      .transform((val) => Number(val))
+      .refine((val) => !isNaN(val) && val > 0, {
+        message: "Quantity must be a positive number",
+      }),
+    price: z
+      .string()
+      .min(1, "Price is required")
+      .transform((val) => Number(val))
+      .refine((val) => !isNaN(val) && val > 0, {
+        message: "Price must be a positive number",
+      }),
+
+    rating: z
+      .string()
+      .min(1, "Rating is required")
+      .transform((val) => Number(val))
+      .refine((val) => !isNaN(val) && val >= 0 && val <= 5, {
+        message: "Rating must be between 0 and 5",
+      }),
     description: z.string(),
   }),
 });
