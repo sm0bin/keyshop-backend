@@ -4,6 +4,7 @@ import httpStatus from "http-status";
 import { Request, Response } from "express";
 import AppError from "../../errors/AppError";
 import { CartServices } from "./cart.service";
+import { log } from "console";
 
 // Get all carts (for admin)
 const getAllCarts = catchAsync(async (req: Request, res: Response) => {
@@ -144,6 +145,20 @@ const clearCart = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Update cart address
+const updateCartAddress = catchAsync(async (req: Request, res: Response) => {
+  const id = req.user.id;
+  const address = req.body; // should include address details
+  log("Updating cart address:", address);
+  const updatedCart = await CartServices.updateCartAddress(id, address);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Cart address updated",
+    data: updatedCart,
+  });
+});
+
 export const CartController = {
   getAllCarts,
   getCartById,
@@ -156,4 +171,5 @@ export const CartController = {
   updateCartItem,
   removeItemFromCart,
   clearCart,
+  updateCartAddress,
 };

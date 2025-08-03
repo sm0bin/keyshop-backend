@@ -3,7 +3,11 @@ import validateRequest from "../../middlewares/validateRequest";
 import authVerify from "../../middlewares/authVerify";
 import { USER_ROLE } from "../user/user.constant";
 import { CartController } from "./cart.controller";
-import { createCartSchema, updateCartSchema } from "./cart.validation";
+import {
+  createCartSchema,
+  shippingAddressSchema,
+  updateCartSchema,
+} from "./cart.validation";
 
 const router = Router();
 
@@ -36,10 +40,25 @@ router.delete(
 );
 
 // Get my cart
-router.get("/my-cart", authVerify(USER_ROLE.user), CartController.getMyCart);
+router.get(
+  "/my-cart",
+  authVerify(USER_ROLE.user, USER_ROLE.admin),
+  CartController.getMyCart
+);
 
 // Clear cart
-router.delete("/clear", authVerify(USER_ROLE.user), CartController.clearCart);
+router.delete(
+  "/clear",
+  authVerify(USER_ROLE.user, USER_ROLE.admin),
+  CartController.clearCart
+);
+
+router.put(
+  "/address",
+  authVerify(USER_ROLE.user, USER_ROLE.admin),
+  validateRequest(shippingAddressSchema),
+  CartController.updateCartAddress
+);
 
 // Create a new cart
 router.post(

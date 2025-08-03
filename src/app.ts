@@ -25,6 +25,7 @@ app.use(
 // application routes
 app.use("/api/v1", router);
 
+// home route
 app.get("/", (req: Request, res: Response) => {
   res.send("Keyshop Backend is running");
 });

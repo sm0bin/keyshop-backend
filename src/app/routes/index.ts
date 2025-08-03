@@ -3,6 +3,7 @@ import { ProductRoutes } from "../modules/product/product.route";
 import { UserRoutes } from "../modules/user/user.route";
 import { CartRoutes } from "../modules/cart/cart.route";
 import { AuthRoutes } from "../modules/auth/auth.route";
+import { StripeRoutes } from "../modules/others/stripe.route";
 // import { OrderRoutes } from "../modules/order/order.route";
 
 const router = Router();
@@ -23,6 +24,10 @@ const routes = [
   {
     path: "/auth",
     route: AuthRoutes,
+  },
+  {
+    path: "/stripe",
+    route: StripeRoutes,
   },
   // {
   //   path: "orders",

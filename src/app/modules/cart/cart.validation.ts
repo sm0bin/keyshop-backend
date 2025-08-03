@@ -1,5 +1,16 @@
 import z from "zod";
 
+export const shippingAddressSchema = z.object({
+  body: z.object({
+    country: z.string().min(1, "Country is required!"),
+    zipCode: z.string().min(1, "Zip code is required!"),
+    district: z.string().min(1, "District is required!"),
+    thana: z.string().min(1, "Thana is required!"),
+    address: z.string().min(1, "Address is required!"),
+    phone: z.string().min(1, "Phone is required!"),
+  }),
+});
+
 export const createCartSchema = z.object({
   body: z.object({
     userId: z.string().min(1, "User id is required!"),
@@ -17,16 +28,7 @@ export const createCartSchema = z.object({
         percentage: z.number().optional(),
       })
       .optional(),
-    shippingAddress: z
-      .object({
-        country: z.string().min(1, "Country is required!"),
-        zipCode: z.string().min(1, "Zip code is required!"),
-        district: z.string().min(1, "District is required!"),
-        thana: z.string().min(1, "Thana is required!"),
-        address: z.string().min(1, "Address is required!"),
-        phone: z.string().min(1, "Phone is required!"),
-      })
-      .optional(),
+    shippingAddress: shippingAddressSchema.optional(),
     paymentMethod: z
       .enum(["cashOnDelivery", "onlinePayment"])
       .default("cashOnDelivery"),

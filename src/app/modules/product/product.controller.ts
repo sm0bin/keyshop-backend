@@ -7,7 +7,17 @@ import { ProductService } from "./product.service";
 
 // Get all products
 const getAllProducts = catchAsync(async (req: Request, res: Response) => {
-  const products = await ProductService.getAllProducts();
+  const { search, minPrice, maxPrice, sortBy } = req.query;
+
+  const queryParams = {
+    search: search as string,
+    minPrice: minPrice ? parseFloat(minPrice as string) : undefined,
+    maxPrice: maxPrice ? parseFloat(maxPrice as string) : undefined,
+    sortBy: sortBy as string,
+  };
+
+  const products = await ProductService.getAllProducts(queryParams);
+
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,

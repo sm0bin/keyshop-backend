@@ -125,6 +125,15 @@ const clearCart = async (userId: string) => {
   return await cart.save();
 };
 
+// Update cart address
+const updateCartAddress = async (userId: string, address: any) => {
+  const cart = await Cart.findOne({ userId });
+  if (!cart) return null;
+
+  cart.shippingAddress = address;
+  return await cart.save();
+};
+
 export const CartServices = {
   getAllCarts,
   getCartById,
@@ -137,4 +146,5 @@ export const CartServices = {
   removeItem,
   getMyCart,
   clearCart,
+  updateCartAddress,
 };
