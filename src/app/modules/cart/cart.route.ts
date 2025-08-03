@@ -21,21 +21,21 @@ router.get(
 // Add Item to cart
 router.post(
   "/add-item",
-  authVerify(USER_ROLE.user),
+  authVerify(USER_ROLE.user, USER_ROLE.admin),
   CartController.addItemToCart
 );
 
 // Update cart item
 router.put(
   "/update-item",
-  authVerify(USER_ROLE.user),
+  authVerify(USER_ROLE.user, USER_ROLE.admin),
   CartController.updateCartItem
 );
 
 // Remove item from cart
 router.delete(
   "/remove-item/:id",
-  authVerify(USER_ROLE.user),
+  authVerify(USER_ROLE.user, USER_ROLE.admin),
   CartController.removeItemFromCart
 );
 
@@ -63,7 +63,7 @@ router.put(
 // Create a new cart
 router.post(
   "/",
-  authVerify(USER_ROLE.user),
+  authVerify(USER_ROLE.user, USER_ROLE.admin),
   validateRequest(createCartSchema),
   CartController.createCart
 );
