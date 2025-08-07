@@ -28,7 +28,6 @@ const cartSchema = new Schema<ICart>(
   {
     userId: {
       type: String,
-      ref: "User",
       required: true,
     },
     items: [
@@ -82,7 +81,7 @@ const cartSchema = new Schema<ICart>(
     },
     status: {
       type: String,
-      enum: ["active", "abandoned", "converted"],
+      enum: ["active", "abandoned", "converted", "paid"],
       default: CartStatus.ACTIVE,
     },
   },

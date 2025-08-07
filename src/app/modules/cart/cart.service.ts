@@ -35,7 +35,7 @@ const deleteCart = async (userId: string) => {
 
 // Add an item to the user's cart
 const addItem = async (userId: string, item: ICartItem) => {
-  const cart = await Cart.findOne({ userId });
+  const cart = await Cart.findOne({ userId, status: "active" });
 
   if (!cart) {
     return await Cart.create({ userId, items: [item] });
@@ -56,7 +56,7 @@ const addItem = async (userId: string, item: ICartItem) => {
 
 // Update item quantity in cart
 const updateItem = async (userId: string, item: ICartItem) => {
-  const cart = await Cart.findOne({ userId });
+  const cart = await Cart.findOne({ userId, status: "active" });
 
   if (!cart) return null;
 
@@ -74,7 +74,7 @@ const updateItem = async (userId: string, item: ICartItem) => {
 
 // Remove item from cart
 const removeItem = async (userId: string, productId: string) => {
-  const cart = await Cart.findOne({ userId });
+  const cart = await Cart.findOne({ userId, status: "active" });
 
   if (!cart) return null;
 
@@ -86,7 +86,7 @@ const removeItem = async (userId: string, productId: string) => {
 };
 
 const getMyCart = async (userId: string) => {
-  const cart = await Cart.findOne({ userId });
+  const cart = await Cart.findOne({ userId, status: "active" });
   if (!cart) {
     return await Cart.create({ userId, items: [] });
   }
@@ -118,7 +118,7 @@ const getMyCart = async (userId: string) => {
 
 // Clear all items from the user's cart
 const clearCart = async (userId: string) => {
-  const cart = await Cart.findOne({ userId });
+  const cart = await Cart.findOne({ userId, status: "active" });
   if (!cart) return null;
 
   cart.items = [];
@@ -127,7 +127,7 @@ const clearCart = async (userId: string) => {
 
 // Update cart address
 const updateCartAddress = async (userId: string, address: any) => {
-  const cart = await Cart.findOne({ userId });
+  const cart = await Cart.findOne({ userId, status: "active" });
   if (!cart) return null;
 
   cart.shippingAddress = address;

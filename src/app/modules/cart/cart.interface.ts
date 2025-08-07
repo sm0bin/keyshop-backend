@@ -29,6 +29,7 @@ export enum CartStatus {
   ACTIVE = "active",
   ABANDONED = "abandoned",
   CONVERTED = "converted",
+  PAID = "paid",
 }
 
 export interface ICart {
