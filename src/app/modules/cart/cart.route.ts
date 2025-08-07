@@ -4,6 +4,7 @@ import authVerify from "../../middlewares/authVerify";
 import { USER_ROLE } from "../user/user.constant";
 import { CartController } from "./cart.controller";
 import {
+  addToCartSchema,
   createCartSchema,
   shippingAddressSchema,
   updateCartSchema,
@@ -22,6 +23,7 @@ router.get(
 router.post(
   "/add-item",
   authVerify(USER_ROLE.user, USER_ROLE.admin),
+  validateRequest(addToCartSchema),
   CartController.addItemToCart
 );
 

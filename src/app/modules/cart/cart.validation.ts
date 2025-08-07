@@ -11,6 +11,15 @@ export const shippingAddressSchema = z.object({
   }),
 });
 
+export const addToCartSchema = z.object({
+  body: z.object({
+    // userId: z.string().min(1, "User id is required!"),
+    productId: z.string().min(1, "Product id is required!"),
+    quantity: z.number().min(1, "Quantity must be at least 1!"),
+    price: z.number().min(1, "Price must be at least 1!"),
+  }),
+});
+
 export const createCartSchema = z.object({
   body: z.object({
     userId: z.string().min(1, "User id is required!"),
