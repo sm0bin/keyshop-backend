@@ -81,7 +81,7 @@ const cartSchema = new Schema<ICart>(
     },
     status: {
       type: String,
-      enum: ["active", "abandoned", "converted", "paid"],
+      enum: ["active", "abandoned", "converted", "paid", "cash_on_delivery"],
       default: CartStatus.ACTIVE,
     },
   },

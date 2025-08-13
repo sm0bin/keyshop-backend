@@ -82,9 +82,9 @@ router.get(
 
 // Update a cart
 router.put(
-  "/:id",
+  "/update",
   authVerify(USER_ROLE.user, USER_ROLE.admin),
-  validateRequest(updateCartSchema),
+  // validateRequest(updateCartSchema),
   CartController.updateCart
 );
 

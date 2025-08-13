@@ -30,6 +30,7 @@ export enum CartStatus {
   ABANDONED = "abandoned",
   CONVERTED = "converted",
   PAID = "paid",
+  CASH_ON_DELIVERY = "cash_on_delivery",
 }
 
 export interface ICart {
@@ -44,4 +45,13 @@ export interface ICart {
   //   expiresAt: Date;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export interface IUpdateCart {
+  items?: ICartItem[];
+  totalAmount?: number;
+  totalItems?: number;
+  discount?: ICartDiscount;
+  shippingAddress?: IShippingAddress;
+  status?: CartStatus;
 }

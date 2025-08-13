@@ -41,7 +41,9 @@ export const createCartSchema = z.object({
     paymentMethod: z
       .enum(["cashOnDelivery", "onlinePayment"])
       .default("cashOnDelivery"),
-    status: z.enum(["active", "abandoned", "converted"]).default("active"),
+    status: z
+      .enum(["active", "abandoned", "converted", "cash_on_delivery"])
+      .default("active"),
   }),
 });
 

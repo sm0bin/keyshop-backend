@@ -1,5 +1,5 @@
 import { Product } from "../product/product.model";
-import { ICart, ICartItem } from "./cart.interface";
+import { ICart, ICartItem, IUpdateCart } from "./cart.interface";
 import { Cart } from "./cart.model";
 import mongoose from "mongoose";
 
@@ -24,8 +24,29 @@ const createCart = async (cart: ICart) => {
 };
 
 // Update entire cart
-const updateCart = async (userId: string, cart: ICart) => {
-  return await Cart.findByIdAndUpdate(userId, cart, { new: true });
+const updateCart = async (userId: string, cart: IUpdateCart) => {
+  const updatedCart = await Cart.findOneAndUpdate(
+    { userId, status: "active" },
+    { status: cart.status },
+    { new: true }
+  );
+
+  console.log(updatedCart);
+  if (!updatedCart) {
+    throw new Error("Cart not found");
+  }
+
+  const bulkOperations = updatedCart.items.map((p: ICartItem) => ({
+    updateOne: {
+      filter: { _id: p.productId, isDeleted: false },
+      update: { $inc: { quantity: -p.quantity } },
+    },
+  }));
+
+  const updatedProducts = await Product.bulkWrite(bulkOperations);
+  console.log(updatedProducts);
+
+  return updatedProducts;
 };
 
 // Delete a cart by ID
@@ -45,6 +66,19 @@ const addItem = async (userId: string, item: ICartItem) => {
     (i) => i.productId.toString() === item.productId.toString()
   );
 
+  const product = await Product.findOne({
+    _id: item.productId,
+    isDeleted: false,
+  });
+
+  if (!product) {
+    throw new Error("Product not found");
+  }
+
+  if (product.quantity < item.quantity + (existingItem?.quantity || 0)) {
+    throw new Error("Cart quantity must not exceed product available");
+  }
+
   if (existingItem) {
     existingItem.quantity += item.quantity;
   } else {
@@ -63,6 +97,19 @@ const updateItem = async (userId: string, item: ICartItem) => {
   const existingItem = cart.items.find(
     (i) => i.productId.toString() === item.productId.toString()
   );
+
+  // const product = await Product.findOne({
+  //   _id: item.productId,
+  //   isDeleted: false,
+  // });
+
+  // if (!product) {
+  //   throw new Error("Product not found");
+  // }
+
+  // if (product.quantity < item.quantity + (existingItem?.quantity || 0)) {
+  //   throw new Error("Cart quantity must not exceed product available");
+  // }
 
   if (existingItem) {
     existingItem.quantity = item.quantity;

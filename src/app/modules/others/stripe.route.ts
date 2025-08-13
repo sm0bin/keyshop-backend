@@ -4,9 +4,18 @@ import { success } from "zod";
 import { Cart } from "../cart/cart.model";
 import authVerify from "../../middlewares/authVerify";
 import { USER_ROLE } from "../user/user.constant";
+import { Product } from "../product/product.model";
+import { IProduct } from "../product/product.interface";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 const router = Router();
+
+export interface ICartItem {
+  productId: string;
+  quantity: number;
+  price: number;
+  product?: IProduct;
+}
 
 router.post(
   "/create-checkout-session",
@@ -21,7 +30,16 @@ router.post(
       { new: true }
     );
 
-    const lineItems = req.body.map((p) => ({
+    const bulkOperations = req.body.map((p: ICartItem) => ({
+      updateOne: {
+        filter: { _id: p.productId, isDeleted: false },
+        update: { $inc: { quantity: -p.quantity } },
+      },
+    }));
+
+    await Product.bulkWrite(bulkOperations);
+
+    const lineItems = req.body.map((p: ICartItem) => ({
       price_data: {
         currency: "usd",
         product_data: {
