@@ -150,6 +150,7 @@ const getMyCart = async (userId: string) => {
     newCart.items.map(async (item) => {
       const product = await Product.findById(item.productId);
       return {
+        //@ts-expect-error ICartItem
         ...item.toObject(), // Convert mongoose document to plain object
         product: product || null,
       };

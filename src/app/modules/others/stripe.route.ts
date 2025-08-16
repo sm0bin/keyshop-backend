@@ -6,6 +6,7 @@ import authVerify from "../../middlewares/authVerify";
 import { USER_ROLE } from "../user/user.constant";
 import { Product } from "../product/product.model";
 import { IProduct } from "../product/product.interface";
+import config from "../../config";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 const router = Router();
@@ -43,10 +44,10 @@ router.post(
       price_data: {
         currency: "usd",
         product_data: {
-          name: p.product.title,
-          images: [p.product.image],
+          name: p?.product?.title,
+          images: [p?.product?.image],
         },
-        unit_amount: p.product.price * 100,
+        unit_amount: (p?.product?.price || p.price) * 100,
       },
       quantity: p.quantity,
     }));
@@ -55,8 +56,8 @@ router.post(
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      success_url: "http://localhost:5173/success",
-      cancel_url: "http://localhost:5173/cancel",
+      success_url: `${config.clientUrl}/success`,
+      cancel_url: `${config.clientUrl}/cancel`,
     });
 
     res.send({
@@ -66,21 +67,5 @@ router.post(
     //   res.json({ id: session.id });
   }
 );
-
-router.get("/session-status", async (req, res) => {
-  try {
-    const session = await stripe.checkout.sessions.retrieve(
-      req.query.session_id
-    );
-
-    res.send({
-      status: session.status,
-      customer_email: session.customer_details?.email,
-    });
-  } catch (error) {
-    console.error("Error retrieving session:", error);
-    res.status(500).send({ error: error.message });
-  }
-});
 
 export const StripeRoutes = router;
