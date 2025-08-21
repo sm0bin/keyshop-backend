@@ -21,7 +21,9 @@ app.use(
       "http://localhost:5173",
       "http://localhost:5174",
       "https://keyshop-gilt.vercel.app",
+      "keyshop-gilt.vercel.app",
     ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
