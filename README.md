@@ -2,11 +2,11 @@
 
 ## Introduction
 
-The backend of the **Mechanical Keyboard Shop** is a RESTful API service built with Node.js, Express, TypeScript, and MongoDB. It powers the frontend by managing product data, orders, user actions, and admin operations.
+The backend of the **Mechanical Keyboard Shop** is a RESTful API service built with Node.js, Express, TypeScript, and MongoDB. It powers the frontend by managing product data, cart, user actions, and admin operations.
 
 ## Project Description
 
-The backend provides a secure and scalable API for e-commerce operations. It handles product CRUD, cart validation, checkout process, and integrates optional payment gateway (Stripe). Input validation is ensured with Zod, and Mongoose provides robust schema modeling for MongoDB.
+The backend provides a secure and scalable API for e-commerce operations. It handles product CRUD, cart validation, checkout process, and integrates payment gateway (Stripe). Input validation is ensured with Zod, and Mongoose provides robust schema modeling for MongoDB.
 
 ## Features
 
@@ -50,13 +50,19 @@ The backend provides a secure and scalable API for e-commerce operations. It han
    npm install
    ```
 
-3. Build TypeScript files:
+3. Run Development Server:
+
+   ```bash
+   npm run start:dev
+   ```
+
+4. Build the server:
 
    ```bash
    npm run build
    ```
 
-4. Start the server:
+5. Start the production server:
 
    ```bash
    npm run start:prod
@@ -83,7 +89,7 @@ STRIPE_PRICE_ID=XXXX
 
 ## Usage
 
-1. Run the server with `npm run start`.
+1. Run the server with `npm run start:dev`.
 2. Access the API at `http://localhost:5000/api/v1`.
 3. Endpoints include:
 
@@ -93,13 +99,22 @@ STRIPE_PRICE_ID=XXXX
    - `PUT /products/:id` → Update product (Admin)
    - `DELETE /products/:id` → Delete product (Admin)
    - `POST /cart` → Add item to cart
+   - `GET /cart/user/:userId` → Get cart by user ID
+   - `GET /cart/my-cart` → Get my cart
+   - `POST /cart` → Create a new cart
+   - `PUT /cart/update` → Update a cart
+   - `DELETE /cart/:id` → Delete a cart
 
 ---
 
 ## Live Deployment 🌐
 
-[Backend API](https://keyshop-backend.vercel.app/)
+[Client App](https://keyshop-gilt.vercel.app/)
+
+[Backend API](https://keyshop-backend.vercel.app/api/v1)
 
 ## GitHub Repository 📂
+
+[Frontend Repository](https://github.com/sm0bin/keyshop)
 
 [Backend Repository](https://github.com/sm0bin/keyshop-backend)
