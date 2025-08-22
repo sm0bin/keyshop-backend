@@ -118,3 +118,7 @@ STRIPE_PRICE_ID=XXXX
 [Frontend Repository](https://github.com/sm0bin/keyshop)
 
 [Backend Repository](https://github.com/sm0bin/keyshop-backend)
+
+## Project Overview Video ▶️
+
+[Overview Video](https://drive.google.com/file/d/15bmJPhIO2PNjmXscVr_XtAJtQKRHcT-U/view?usp=drive_link)
